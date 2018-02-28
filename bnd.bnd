@@ -1,0 +1,7 @@
+#
+#   SOFTWARE HSHARP IDEMPIERE API HELPERS
+#
+Export-Package: \
+    software.hsharp.api.helpers*, \
+    software.hsharp.api.helpers.cors*, \
+    software.hsharp.api.helpers.jwt*, \
