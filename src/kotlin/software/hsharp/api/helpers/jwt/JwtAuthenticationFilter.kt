@@ -37,7 +37,6 @@ open abstract class JwtAuthenticationFilter : ContainerRequestFilter {
 
         val queryParameters = requestContext.uriInfo.queryParameters
 
-
         if ("get" == method && ("application.wadl" == path || "application.wadl/xsd0.xsd" == path || "status" == path) || "authentication" == path) {
             // pass through the filter.
             requestContext.setSecurityContext(
