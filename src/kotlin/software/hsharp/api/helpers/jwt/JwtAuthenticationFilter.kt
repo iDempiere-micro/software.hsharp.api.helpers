@@ -39,13 +39,7 @@ open abstract class JwtAuthenticationFilter : ContainerRequestFilter {
 
         if ("get" == method && ("application.wadl" == path || "application.wadl/xsd0.xsd" == path || "status" == path) || "authentication" == path) {
             // pass through the filter.
-            requestContext.setSecurityContext(
-                    SecurityContextAuthorizer(uriInfo!!,
-                            "anonymous",
-                            arrayOf("anonymous"),
-                            decodeUserLoginModel("")
-                    )
-            )
+            requestContext.setSecurityContext(NoLoginSecurityContextAuthorizer(uriInfo!!))
             return
         }
 
