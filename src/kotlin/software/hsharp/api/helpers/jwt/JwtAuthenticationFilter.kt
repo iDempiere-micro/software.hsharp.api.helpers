@@ -1,5 +1,6 @@
 package software.hsharp.api.helpers.jwt
 
+import io.jsonwebtoken.SignatureException
 import org.glassfish.jersey.server.ContainerRequest
 import java.io.IOException
 import java.security.Key
@@ -50,16 +51,26 @@ open abstract class JwtAuthenticationFilter : ContainerRequestFilter {
 
         val jwt = authorizationHeader?.substring(AUTH_HEADER_VALUE_PREFIX.length) ?: queryParameters!!.getFirst("token")
         if (jwt != null && !jwt.isEmpty()) {
-            val claims = JwtManager.parseToken(jwt)
-            val userLogin = claims.body.subject as String
-            val role = claims.body[JwtManager.CLAIM_ROLE] as String
-            val userLoginModel = claims.body[JwtManager.CLAIM_LOGINMODEL] as String
-            requestContext.setSecurityContext(
-                    SecurityContextAuthorizer(
-                            uriInfo!!, userLogin, decodeRoles(role), decodeUserLoginModel(requestContext, userLoginModel)
-                    )
-            )
-            return
+            try {
+                val claims = JwtManager.parseToken(jwt)
+                val userLogin = claims.body.subject as String
+                val role = claims.body[JwtManager.CLAIM_ROLE] as String
+                val userLoginModel = claims.body[JwtManager.CLAIM_LOGINMODEL] as String
+                requestContext.setSecurityContext(
+                        SecurityContextAuthorizer(
+                                uriInfo!!, userLogin, decodeRoles(role), decodeUserLoginModel(requestContext, userLoginModel)
+                        )
+                )
+                return
+            } catch (ex: SignatureException) {
+                // just swallow the exception here, should look like
+                /*
+                org.apache.felix.log.LogException: io.jsonwebtoken.SignatureException: JWT signature does not match locally computed signature.
+                JWT validity cannot be asserted and should not be trusted. at io.jsonwebtoken.impl.DefaultJwtParser.parse(DefaultJwtParser.java:354)
+                at io.jsonwebtoken.impl.DefaultJwtParser.parse(DefaultJwtParser.java:481)
+                at io.jsonwebtoken.impl.DefaultJwtParser.parseClaimsJws(DefaultJwtParser.java:541)
+                 */
+            }
         }
         throw WebApplicationException(Response.Status.UNAUTHORIZED)
     }
