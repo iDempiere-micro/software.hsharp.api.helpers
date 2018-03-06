@@ -27,7 +27,7 @@ open abstract class JwtAuthenticationFilter : ContainerRequestFilter {
     @Inject
     internal var uriInfo: javax.inject.Provider<UriInfo>? = null
 
-    protected abstract fun decodeUserLoginModel(userLoginModel:String) : IUserLoginModel;
+    protected abstract fun decodeUserLoginModel(requestContext : ContainerRequestContext, userLoginModel:String) : IUserLoginModel;
     protected abstract fun decodeRoles(roleModel:String) : Array<String>;
 
     @Throws(IOException::class)
@@ -56,10 +56,12 @@ open abstract class JwtAuthenticationFilter : ContainerRequestFilter {
             val userLoginModel = claims.body[JwtManager.CLAIM_LOGINMODEL] as String
             requestContext.setSecurityContext(
                     SecurityContextAuthorizer(
-                            uriInfo!!, userLogin, decodeRoles(role), decodeUserLoginModel(userLoginModel)
+                            uriInfo!!, userLogin, decodeRoles(role), decodeUserLoginModel(requestContext, userLoginModel)
                     )
             )
+            return
         }
+        throw WebApplicationException(Response.Status.UNAUTHORIZED)
     }
 
     companion object {
