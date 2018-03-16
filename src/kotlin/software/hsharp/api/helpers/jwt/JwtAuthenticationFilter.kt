@@ -17,7 +17,7 @@ import javax.ws.rs.ext.Provider
 
 @Provider
 @Priority(Priorities.AUTHENTICATION)
-open abstract class JwtAuthenticationFilter : ContainerRequestFilter {
+abstract class JwtAuthenticationFilter : ContainerRequestFilter {
 
     /**
      * HK2 Injection.
