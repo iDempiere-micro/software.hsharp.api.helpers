@@ -1,5 +1,8 @@
 package software.hsharp.api.helpers.jwt
 
+import software.hsharp.core.services.IService
+import software.hsharp.core.services.IServiceRegister
+
 interface ILogin {
     val loginName : String
     val password : String
@@ -10,12 +13,10 @@ interface ILoginResponse {
     val token : String?
 }
 
-interface ILoginService {
+interface ILoginService : IService {
     val uniqueKey : String
     fun login( login : ILogin ) : ILoginResponse
 }
 
-interface ILoginServiceRegister {
-    fun registerLoginService( service : ILoginService )
-    val loginServices : Array<ILoginService>
+interface ILoginServiceRegister : IServiceRegister<ILoginService> {
 }
