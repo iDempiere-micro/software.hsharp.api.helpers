@@ -37,8 +37,8 @@ abstract class ResponseWrapper(val delegate: Response) : Response() {
         return delegate.statusInfo
     }
 
-    override fun equals(obj: Any?): Boolean {
-        return delegate.equals(obj)
+    override fun equals(other: Any?): Boolean {
+        return delegate.equals(other)
     }
 
     override fun getEntity(): Any {
