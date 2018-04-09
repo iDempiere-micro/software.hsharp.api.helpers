@@ -36,7 +36,7 @@ class JwtManager protected constructor() {
         val CLAIM_LOGINMODEL = "loginmodel"
 
         private val SIGNATURE_ALGORITHM = SignatureAlgorithm.HS256
-        private val TOKEN_VALIDITY = Duration.ofHours(4L)
+        private val TOKEN_VALIDITY = Duration.ofHours(12L)
         private val SECRET_KEY = generateKey()
 
         private var DEFAULT_SECURE_RANDOM: SecureRandom? = null
