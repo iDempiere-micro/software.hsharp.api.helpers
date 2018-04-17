@@ -12,7 +12,7 @@ abstract class CORSFilter : ContainerResponseFilter {
     @Throws(IOException::class)
     override fun filter(requestContext: ContainerRequestContext, responseContext: ContainerResponseContext) {
 
-        responseContext.headers.add("X-Powered-By", "Daisy 1.0")
+        responseContext.headers.add("X-Powered-By", "GT2Base 1.0")
         responseContext.headers.add("Access-Control-Allow-Origin", "*")
         responseContext.headers.add("Access-Control-Allow-Headers",
                 "origin, content-type, accept, authorization")
