@@ -65,13 +65,18 @@ abstract class JwtAuthenticationFilter : ContainerRequestFilter {
                         )
                 )
                 return
-            } catch (ex: SignatureException) {
-                // just swallow the exception here, should look like
+            } catch (ex: Exception) {
+                // just swallow an exception here, should look like
                 /*
                 org.apache.felix.log.LogException: io.jsonwebtoken.SignatureException: JWT signature does not match locally computed signature.
                 JWT validity cannot be asserted and should not be trusted. at io.jsonwebtoken.impl.DefaultJwtParser.parse(DefaultJwtParser.java:354)
                 at io.jsonwebtoken.impl.DefaultJwtParser.parse(DefaultJwtParser.java:481)
                 at io.jsonwebtoken.impl.DefaultJwtParser.parseClaimsJws(DefaultJwtParser.java:541)
+
+                OR
+
+                JWT expired etc.
+
                  */
             }
         }
