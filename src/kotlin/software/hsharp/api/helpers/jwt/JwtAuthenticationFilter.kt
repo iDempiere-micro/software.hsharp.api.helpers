@@ -78,6 +78,7 @@ abstract class JwtAuthenticationFilter : ContainerRequestFilter {
                 JWT expired etc.
 
                  */
+                println( "JWT decode fail $ex" )
             }
         }
         throw WebApplicationException(Response.Status.UNAUTHORIZED)
